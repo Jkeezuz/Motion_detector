@@ -4,20 +4,37 @@ video = cv2.VideoCapture(1)
 
 frame_counter = 0
 
+first_frame = None
+
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 while True:
     frame_counter = frame_counter + 1
     check, frame = video.read()
 
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    gray_frame = cv2.GaussianBlur(gray_frame, (21, 21), 0)
 
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.05, minNeighbors=3)
+    if first_frame is None:
+        first_frame = gray_frame
+        continue
 
-    for x, y, width, height in faces:
-        img = cv2.rectangle(frame, (x, y), (x+width, y+height), (0, 255, 0), 3)
+    delta_frame = cv2.absdiff(first_frame, gray_frame)
+    thresh_frame = cv2.threshold(delta_frame, 30, 255, cv2.THRESH_BINARY)[1]
+    thresh_frame = cv2.dilate(thresh_frame, None, iterations=2)
 
-    cv2.imshow("Capturing", frame)
+    (_,cnts,_) = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    for contour in cnts:
+        if cv2.contourArea(contour=contour) < 1000:
+            continue
+        (x, y, w, h)=cv2.boundingRect(contour)
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (255,120,34), 3)
+
+    cv2.imshow("Gray", gray_frame)
+    cv2.imshow("Delta", delta_frame)
+    cv2.imshow("Threshold", thresh_frame)
+    cv2.imshow("Frame", frame)
 
     key = cv2.waitKey(1)
 
