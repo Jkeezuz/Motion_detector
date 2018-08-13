@@ -7,6 +7,7 @@ video = cv2.VideoCapture(1)
 
 frame_counter = 0
 
+
 first_frame = None
 
 status_list = [None, None]
@@ -29,8 +30,8 @@ while True:
         continue
 
     delta_frame = cv2.absdiff(first_frame, gray_frame)
-    thresh_frame = cv2.threshold(delta_frame, 30, 255, cv2.THRESH_BINARY)[1]
-    thresh_frame = cv2.dilate(thresh_frame, None, iterations=2)
+    thresh_frame = cv2.threshold(delta_frame, 22, 255, cv2.THRESH_BINARY)[1]
+    thresh_frame = cv2.dilate(thresh_frame, None, iterations=3)
 
     (_,cnts,_) = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -38,8 +39,8 @@ while True:
         if cv2.contourArea(contour=contour) < 1000:
             continue
         is_there_motion = True
-        (x, y, w, h)=cv2.boundingRect(contour)
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (255,120,34), 3)
+        (x, y, w, h) = cv2.boundingRect(contour)
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 120, 34), 3)
 
     status_list.append(is_there_motion)
     if status_list[-1] is True and status_list[-2] is False:
