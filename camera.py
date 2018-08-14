@@ -1,5 +1,7 @@
 import cv2
 
+from Motion_detector.frame import Frame
+
 
 class Camera:
 
@@ -14,8 +16,10 @@ class Camera:
     def getVideo(self):
         return self.video
 
-    def getFrame(self):
-        return self.video.read()
+    def getFrameObject(self):
+        new_frame = Frame()
+        new_frame.check, new_frame.frame = self.video.read()
+        return new_frame
 
     def realeaseVideo(self):
         if self.video is not None:
