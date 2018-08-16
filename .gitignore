@@ -2,3 +2,4 @@ venv/
 .idea/
 Times.csv
 .~lock.Times.csv#
+Graph.html
