@@ -9,9 +9,12 @@ class Display:
     def displayAllFrames(self):
         for frame in self.frame:
             cv2.imshow("Frame: {}".format(frame.name), frame.frame)
-        self.frame.clear()
+
 
     @staticmethod
     def closeAllWindows():
         cv2.destroyAllWindows()
+
+    def clearFrames(self):
+        self.frame.clear()
 

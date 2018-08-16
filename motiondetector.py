@@ -37,12 +37,6 @@ class MotionDetector:
     def getMotionStatus(self):
         return self.is_there_motion
 
-    def createGrayFrame(self):
-        self.display.gray_frame =  cv2.cvtColor(self.display.current_frame, cv2.COLOR_BGR2GRAY)
-
-    def applyGaussianBlur(self):
-        self.display.gray_frame = cv2.GaussianBlur(self.display.gray_frame, (21, 21), 0)
-
     def drawRectsOnMotion(self, cnts, current_frame):
         for contour in cnts:
             if cv2.contourArea(contour=contour) < 1000:
@@ -53,6 +47,9 @@ class MotionDetector:
 
     def recordMotionTime(self):
         self.status_list.append(self.is_there_motion)
+
+        self.status_list = self.status_list[-2:]
+
         if self.status_list[-1] is True and self.status_list[-2] is False:
             self.times.append(datetime.datetime.now())
         if self.status_list[-1] is False and self.status_list[-2] is True:
@@ -103,6 +100,8 @@ class MotionDetector:
             self.display.frame.append(gray_frame)
 
             self.display.displayAllFrames()
+
+            self.display.clearFrames()
 
             if self.waitForKeyPress(1, 'q') is True:
                 break

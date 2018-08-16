@@ -3,8 +3,10 @@ import datetime
 import cv2
 import pandas as pandas
 from Motion_detector.camera import Camera
+from Motion_detector.graph_maker import GraphMaker
 from Motion_detector.motiondetector import MotionDetector
 from Motion_detector.display import Display
+
 
 motion_detector = MotionDetector()
 camera = Camera(1)
@@ -22,6 +24,10 @@ for i in range(0, len(motion_detector.times), 2):
     df=df.append({"Start": motion_detector.times[i], "End": motion_detector.times[i+1]}, ignore_index=True)
 
 df.to_csv("Times.csv")
+
+
+p = GraphMaker.generateQuadGraphDatetime(df)
+
 
 motion_detector.getCamera().realeaseVideo()
 
