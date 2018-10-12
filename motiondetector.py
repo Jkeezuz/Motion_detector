@@ -1,7 +1,7 @@
 import cv2
 import datetime
 
-from Motion_detector.frame import Frame
+from frame import Frame
 
 
 class MotionDetector:

@@ -2,10 +2,10 @@ import datetime
 
 import cv2
 import pandas as pandas
-from Motion_detector.camera import Camera
-from Motion_detector.graph_maker import GraphMaker
-from Motion_detector.motiondetector import MotionDetector
-from Motion_detector.display import Display
+from camera import Camera
+from graph_maker import GraphMaker
+from motiondetector import MotionDetector
+from display import Display
 
 
 motion_detector = MotionDetector()

@@ -1,6 +1,6 @@
 import cv2
 
-from Motion_detector.frame import Frame
+from frame import Frame
 
 
 class Camera:
