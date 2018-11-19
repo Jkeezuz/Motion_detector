@@ -1,5 +1,9 @@
 venv/
 .idea/
+__pycache__/
+news.jpg
+photo.jpg
 Times.csv
 .~lock.Times.csv#
 Graph.html
+.gitignore
